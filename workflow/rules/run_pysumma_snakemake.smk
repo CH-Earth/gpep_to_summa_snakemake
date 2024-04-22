@@ -15,16 +15,19 @@ import pysumma as ps
 sys.path.append(str(Path('../').resolve()))
 
 sys.path.append('../')
-from scripts import gmet_to_summa_utils as gts_utils
-config = gts_utils.resolve_paths(config,log_config = False)
+from scripts import gpep_to_summa_utils as gts_utils
+#config = gts_utils.resolve_paths(config,log_config = False)
 
 # Resolve all file paths and directories in the config file
-config['file_manager'] = '/Users/drc858/Data/gpep/RF_ens/summa/settings/fileManager.txt'
-config['summa_output_dir'] = '/Users/drc858/Data/gpep/RF_ens/summa/output'
-config['attributes_nc'] = '/Users/drc858/Data/gpep/RF_ens/summa/settings/'
-config['gru_chunk_size'] = 3
+config['file_manager'] = '/Users/drc858/Data/summa_snakemake/hydrofabric_tuolumne/summa/settings/fileManager.txt'
+config['summa_output_dir'] = '/Users/drc858/Data/summa_snakemake/hydrofabric_tuolumne/summa/output'
+config['attributes_nc'] = '/Users/drc858/Data/summa_snakemake/hydrofabric_tuolumne/summa/settings/attributes.nc'
+config['gru_chunk_size'] = 8
 config['case_name'] = 'tuolumne'
 config['run_suffix'] = 'base'
+
+base_forcing_dir = '/Users/drc858/Data/summa_snakemake/hydrofabric_tuolumne/summa/forcing/rf_dynamic_high_predictors'
+
 
 # UPDATE LOCAL SUMMA PATH
 config['summa_exe'] = '/Users/drc858/GitHub/summa/bin/summa.exe'
