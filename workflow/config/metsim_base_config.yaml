@@ -11,9 +11,10 @@
 #out_dir: Set in main config file ex.'./output'
 # Time step in minutes
 # time_step: 60
+method: 'mtclim'
 
 chunks:
-  hru: 1
+  hru: 5
 
 forcing_vars:  # Format is input_name : metsim_name
   prcp: 'prec'

@@ -26,6 +26,7 @@ def resolve_paths(config,log_config = False, resolve_config = False):
         promoted_config = promote_keys(config)
         config.update(promoted_config)
 
+<<<<<<< HEAD
         # Resolve gpep paths
         #config['gpep_tmp_forcing_dir'] = Path(config['gpep_forcing_dir'], 'gpep_tmp')
 
@@ -34,9 +35,20 @@ def resolve_paths(config,log_config = False, resolve_config = False):
         config['easymore_intersect_dir'] = Path(config['easymore_dir'], 'intersect')
         config['easymore_temp_dir'] = Path(config['easymore_dir'], 'temp')
         config['easymore_output_dir'] = Path(config['easymore_dir'], 'output')
+=======
+    # Resolve gpep paths
+    config['gpep_tmp_forcing_dir'] = Path(config['gpep_to_summa_output_dir'], 'gpep_tmp')
+
+    # Resolve easymore paths
+    config['easymore_dir'] = Path(config['gpep_to_summa_output_dir'], 'easymore')
+    config['easymore_intersect_dir'] = Path(config['easymore_dir'], 'intersect')
+    config['easymore_temp_dir'] = Path(config['easymore_dir'], 'temp')
+    config['easymore_output_dir'] = Path(config['easymore_dir'], 'output')
+>>>>>>> bf3c0ac1546e051a798a7833879626a56d1205fb
 
         config['forcing_shp_path'] = Path(config['easymore_intersect_dir'],config['forcing_shp'])
 
+<<<<<<< HEAD
         # Resolve metsim paths
         config['metsim_dir'] = Path(config['working_dir'], 'metsim')
         config['metsim_input_dir'] = Path(config['metsim_dir'], 'input')
@@ -45,6 +57,11 @@ def resolve_paths(config,log_config = False, resolve_config = False):
         # Define the remapping file that is created by easymore
         remap_file_str = config['case_name'] + '_remapping.nc'
         config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
+=======
+    # Define the remapping file that is created by easymore
+    remap_file_str = 'gpep_remapping.nc'
+    config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
+>>>>>>> bf3c0ac1546e051a798a7833879626a56d1205fb
 
     return config                  
 
@@ -87,6 +104,13 @@ def list_files_in_subdirectory(directory, suffix_to_remove='.nc'):
     file_paths = [file.relative_to(path).as_posix().replace(suffix_to_remove, "") for file in path.glob('**/*') if file.is_file()]
 
     return file_paths
+
+def create_filename_list(base_name, num_ensembles):
+    filenames = []
+    for i in range(1, num_ensembles + 1):
+        filename = f"{base_name}_ensMember_{i:03d}"
+        filenames.append(filename)
+    return filenames
 
 def return_first_file(directory):
     #Return first file in a directory
@@ -152,7 +176,7 @@ def generate_gru_start_and_count(sim_size, chunk_size: int=None, num_chunks: int
     gru_chunk_dict = [{'startGRU': start, 'countGRU': stop - start}
             for start, stop in chunks]
     
-    gru_chunk_strings = ["G{:02d}-{:02d}".format(item['startGRU'], item['startGRU'] + item['countGRU'] - 1) for item in gru_chunk_dict]
+    gru_chunk_strings = ["G{:03d}-{:03d}".format(item['startGRU'], item['startGRU'] + item['countGRU'] - 1) for item in gru_chunk_dict]
 
     return gru_chunk_strings
 
