@@ -6,6 +6,10 @@ Remapping of forcing files to catchment hrus using easymore
 
 from pathlib import Path
 import json
+import sys
+
+# Print the path to the Python interpreter
+print("Python interpreter path:", sys.executable)
 from easymore import Easymore
 
 
@@ -41,7 +45,7 @@ def remap_with_easymore(
 
     temp_dir = str(config["easymore_temp_dir"]) + "/"
     print(temp_dir)
-    easymore_input_var = config['easymore']["easymore_input_var"]
+    easymore_input_var = config["easymore_input_var"]
 
     json_dict = {
         "case_name": config["case_name"],

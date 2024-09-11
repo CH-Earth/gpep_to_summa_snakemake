@@ -27,6 +27,11 @@ rule create_metsim_domain_summa_attr:
         attr_nc = Path(config["attribute_nc"])
     output:
         domain_nc = Path(config["metsim_dir"], config["metsim_domain_nc"])
+    group:
+        "prep_metsim"
+    resources:
+        runtime= 2,
+        mem_mb= 500
     shell:
         'ncap2 -O -s "mask=elevation*0+1" {input.attr_nc} {output.domain_nc}'
 
@@ -49,7 +54,10 @@ rule prep_forcing_files_with_hru_id:
         hru_id_temp = temp(Path(easymore_output,"{forcing}_hruId.nc")),
         hru_id = Path(metsim_input,"{forcing}.nc")
     group:
-        "gpep_to_summa"
+        "prep_metsim"
+    resources:
+        runtime= 2,
+        mem_mb= 500
     shell:
         """
         ncrename -O -v .ID,hruId {input.input_forcing}
@@ -64,7 +72,10 @@ rule create_state_file:
     output:
         output_state_file = temp(Path(metsim_input,"{forcing}_state_temp.nc"))
     group:
-        "gpep_to_summa"
+        "prep_metsim"
+    resources:
+        runtime=2,
+        mem_mb= 500
     run:
         ms_utils.create_state_file(input.input_forcing_file, output.output_state_file)
 
@@ -74,6 +85,9 @@ rule update_state_file_time:
     output:
         output_state_file = Path(metsim_input,"{forcing}_state.nc")
     group:
-        "gpep_to_summa"
+        "prep_metsim"
+    resources:
+        runtime=2,
+        mem_mb=500
     run:
         gts_utils.update_time_units(input.input_state_file, output.output_state_file)

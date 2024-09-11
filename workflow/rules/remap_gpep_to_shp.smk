@@ -23,6 +23,9 @@ rule create_remap_file:
         input_shp = config['catchment_shp']
     output:
         remap_nc = config['remap_file']
+    resources:
+        runtime= 2,
+        mem_mb= 500
     run:
         remap_forcing_to_shp.remap_with_easymore(config, input.input_forcing_files[0],input.input_shp, output.remap_nc, only_create_remap_nc=True)
 
@@ -36,10 +39,14 @@ rule remap_with_easymore:
         output_forcing = Path(config['easymore_output_dir'],"{id}.nc")
     params:
         file_path = "{id}"
+    resources:
+        runtime= 120,
+        mem_mb= 3000
     run:
-        remap_forcing_to_shp.remap_with_easymore(config, input.input_forcing,input.input_shp,input.remap_nc,only_create_remap_nc=False,file_path=params.file_path)
-
-
-
-
-
+        try:
+            remap_forcing_to_shp.remap_with_easymore(config, input.input_forcing, input.input_shp, input.remap_nc, only_create_remap_nc=False, file_path=params.file_path)
+        except Exception as e:
+            # Log the error or take some other action
+            print(f"Error occurred: {e}")
+            # Optionally, raise the exception to stop the workflow
+            raise e

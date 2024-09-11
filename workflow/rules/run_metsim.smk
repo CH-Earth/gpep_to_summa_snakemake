@@ -20,6 +20,11 @@ rule update_metsim_base_time:
         metsim_input_forcing = Path(config['metsim_input_dir'],"{id}.nc")
     output:
         metsim_temp_input_forcing = temp(Path(config['metsim_input_dir'],'temp',"{id}_input.nc"))
+    group:
+        "run_metsim"
+    resources:
+        runtime= 2,
+        mem_mb= 500
     run:
         gts_utils.update_time_units(input.metsim_input_forcing, output.metsim_temp_input_forcing)
 
@@ -31,7 +36,10 @@ rule generate_metsim_output:
     output:
         metsim_output_forcing = Path(config['metsim_output_dir'],"{id}.nc")
     group:
-        "gpep_to_summa"
+        "run_metsim"
+    resources:
+        runtime= 30,
+        mem_mb=10000
     run:
         ms = ms_utils.create_metsim_config(config, input.metsim_input_forcing,input.metsim_input_state,output.metsim_output_forcing)
         ms.run()

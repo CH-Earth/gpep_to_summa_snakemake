@@ -11,37 +11,40 @@ from snakemake.logging import logger
 
 from pprint import pformat
 
-def resolve_paths(config,log_config = False):
+def resolve_paths(config,log_config = False, resolve_config = False):
     """Resolve paths from the configuration file"""
 
-    # Log the settings if required
-    if log_config:
-        logger.info(f'Settings logged from {config}')
-        config_to_log = pformat(config)
-        logger.debug(f'Settings: {config_to_log}')
+    if not resolve_config:
+        print('Skipping resolving of config')
+    else:
+        # Log the settings if required
+        if log_config:
+            logger.info(f'Settings logged from {config}')
+            config_to_log = pformat(config)
+            logger.debug(f'Settings: {config_to_log}')
 
-    promoted_config = promote_keys(config)
-    config.update(promoted_config)
+        promoted_config = promote_keys(config)
+        config.update(promoted_config)
 
-    # Resolve gpep paths
-    config['gpep_tmp_forcing_dir'] = Path(config['working_dir'], 'gpep_tmp')
+        # Resolve gpep paths
+        #config['gpep_tmp_forcing_dir'] = Path(config['gpep_forcing_dir'], 'gpep_tmp')
 
-    # Resolve easymore paths
-    config['easymore_dir'] = Path(config['working_dir'], 'easymore')
-    config['easymore_intersect_dir'] = Path(config['easymore_dir'], 'intersect')
-    config['easymore_temp_dir'] = Path(config['easymore_dir'], 'temp')
-    config['easymore_output_dir'] = Path(config['easymore_dir'], 'output')
+        # Resolve easymore paths
+        config['easymore_dir'] = Path(config['working_dir'], 'easymore')
+        config['easymore_intersect_dir'] = Path(config['easymore_dir'], 'intersect')
+        config['easymore_temp_dir'] = Path(config['easymore_dir'], 'temp')
+        config['easymore_output_dir'] = Path(config['easymore_dir'], 'output')
 
-    config['forcing_shp_path'] = Path(config['easymore_intersect_dir'],config['forcing_shp'])
+        config['forcing_shp_path'] = Path(config['easymore_intersect_dir'],config['forcing_shp'])
 
-    # Resolve metsim paths
-    config['metsim_dir'] = Path(config['working_dir'], 'metsim')
-    config['metsim_input_dir'] = Path(config['metsim_dir'], 'input')
-    config['metsim_output_dir'] = Path(config['metsim_dir'], 'output')
+        # Resolve metsim paths
+        config['metsim_dir'] = Path(config['working_dir'], 'metsim')
+        config['metsim_input_dir'] = Path(config['metsim_dir'], 'input')
+        config['metsim_output_dir'] = Path(config['metsim_dir'], 'output')
 
-    # Define the remapping file that is created by easymore
-    remap_file_str = config['base_settings']['case_name'] + '_remapping.nc'
-    config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
+        # Define the remapping file that is created by easymore
+        remap_file_str = config['case_name'] + '_remapping.nc'
+        config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
 
     return config                  
 
@@ -57,7 +60,7 @@ def promote_keys(nested_dict):
 
     return promoted_dict
 
-def build_ensemble_list(directory):
+def build_ensemble_list(directory,add_ens_dir=True):
     ''' Build a list of the ensemble name and the file name for each file in the directory
         e.g. for each file in the directory: ens_forc.tuolumne.01d.2020.001.nc' --> 001/ens_forc.tuolumne.01d.2020.001.nc
     '''
@@ -72,8 +75,11 @@ def build_ensemble_list(directory):
             filename = file.stem  # Get the filename without the extension
             ens = filename[-3:]  # Get the last three characters
             ensemble_list.add(ens)
-            file_path_list.add(Path(ens, filename)) # Create and add the ens/filename.nc path
-
+            if add_ens_dir:
+                file_path_list.add(Path(ens, filename)) # Create and add the ens/filename.nc path
+            else:
+                file_path_list.add(filename) # Create and add the ens/filename.nc path
+                
     return ensemble_list, file_path_list
 
 def list_files_in_subdirectory(directory, suffix_to_remove='.nc'):

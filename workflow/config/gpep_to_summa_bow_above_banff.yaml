@@ -3,14 +3,15 @@
 # To initiate a new run, review and update the settings below.
 # Note that values will be available as a primary key i.e. config['case_name']
 
-case_name: gpep_hydrofabric_test
-gpep_forcing_dir: /scratch/dcasson/gpep/transform_tests_yearly/
+
+case_name: gpep_bow_above_banff
+#gpep_forcing_dir: /scratch/dcasson/gpep/transform_tests_yearly/
 working_dir: /scratch/dcasson/gpep/transform_tests_yearly/
 summa_dir: /scratch/dcasson/gpep/transform_tests_yearly//test/summa/
 summa_forcing_dir: /scratch/dcasson/gpep/transform_tests_yearly/test/summa
 input_files:
-catchment_shp: /home/dcasson/gpep_to_summa/gpkg/tuolumne_hydrofabric_gru.gpkg
-attribute_nc: /home/dcasson/gpep_to_summa/gpkg/tuolumne_hydrofabric_gru_attributes.nc
+catchment_shp: /project/6044960/dcasson/bow/gpkg/bow_above_banff_elev_band.gpkg
+attribute_nc: /project/6044960/dcasson/bow/gpkg/attributes.nc
 metsim_base_config: ../config/metsim_base_config.yaml
 catchment_shp_hru_id_field: 'HRU_ID'
 catchment_shp_lat_id_field: 'latitude'

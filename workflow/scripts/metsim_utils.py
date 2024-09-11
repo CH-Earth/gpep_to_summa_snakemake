@@ -36,7 +36,7 @@ def create_metsim_config(config, input_forcing_file, input_state_file, output_fi
     metsim_base_config['out_dir'] = str(output_file_path.parent)
     
     #Set other settings
-    metsim_base_config["out_freq"] = config['metsim']['out_freq']
+    metsim_base_config["out_freq"] = config['out_freq']
     metsim_base_config["scheduler"] = "threading"
     metsim_base_config['time_step'] = str(config['metsim_timestep_minutes'])
 
