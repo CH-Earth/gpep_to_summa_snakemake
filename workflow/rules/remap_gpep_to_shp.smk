@@ -38,8 +38,3 @@ rule remap_with_easymore:
         file_path = "{id}"
     run:
         remap_forcing_to_shp.remap_with_easymore(config, input.input_forcing,input.input_shp,input.remap_nc,only_create_remap_nc=False,file_path=params.file_path)
-
-
-
-
-

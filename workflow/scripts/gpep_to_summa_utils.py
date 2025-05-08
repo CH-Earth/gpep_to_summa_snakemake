@@ -35,7 +35,7 @@ def resolve_paths(config,log_config = False):
     config['forcing_shp_path'] = Path(config['easymore_intersect_dir'],config['forcing_shp'])
 
     # Define the remapping file that is created by easymore
-    remap_file_str = 'gpep_remapping.nc'
+    remap_file_str = f'{config["case_name"]}_remapping.nc'
     config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
 
     return config                  
@@ -58,7 +58,7 @@ def build_ensemble_list(directory):
     '''
     
     path = Path(directory)
-    files = path.glob('*') 
+    files = list(path.rglob('*.nc'))
     file_path_list = set()
     ensemble_list = set()  
 
@@ -73,7 +73,7 @@ def build_ensemble_list(directory):
 
 def list_files_in_subdirectory(directory, suffix_to_remove='.nc'):
     path = Path(directory)
-    file_paths = [file.relative_to(path).as_posix().replace(suffix_to_remove, "") for file in path.glob('**/*') if file.is_file()]
+    file_paths = [file.relative_to(path).as_posix().replace(suffix_to_remove, "") for file in path.glob('**/*nc') if file.is_file()]
 
     return file_paths
 

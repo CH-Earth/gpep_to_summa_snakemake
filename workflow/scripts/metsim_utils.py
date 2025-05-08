@@ -9,7 +9,11 @@ import xarray as xr
 import numpy as np
 from collections import OrderedDict
 import yaml
-
+try:
+    from collections.abc import Iterable
+except ImportError:
+    from collections import Iterable
+    
 from metsim import MetSim
 
 from . import gpep_to_summa_utils as gts_utils

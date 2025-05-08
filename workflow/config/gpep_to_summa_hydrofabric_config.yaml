@@ -9,7 +9,8 @@ key_directories:
   gpep_forcing_dir: /Users/drc858/Data/gpep/from_HPC/
   working_dir: /Users/drc858/Data/hydrofabric/forcing_data
   summa_dir: /Users/drc858/Data/hydrofabric/forcing_data/summa/
-  summa_forcing_dir: /Users/drc858/Data/hydrofabric/forcing_data/summa
+  gpep_to_summa_output_dir: /Users/drc858/Data/hydrofabric/forcing_data/summa/
+  summa_forcing_dir: /Users/drc858/Data/hydrofabric/forcing_data/summa/
 input_files:
   catchment_shp: /Users/drc858/Data/summa_snakemake/hydrofabric_tuolumne/watershed_tools/results/hru_lev0_final.gpkg
   attribute_nc: /Users/drc858/GitHub/hydrofabric_to_summa/data/tuolumne/summa/settings/attributes.nc

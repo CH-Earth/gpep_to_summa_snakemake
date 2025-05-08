@@ -1,0 +1,34 @@
+# Settings for the test case generation of summa forcing data from gpep forcing
+
+# To initiate a new run, review and update the settings below.
+# Note that values will be available as a primary key i.e. config['case_name']
+
+base_settings:
+  case_name: chena_test
+key_directories:
+  gpep_forcing_dir: /Users/dcasson/Data/gpep/chena/ensembles/
+  working_dir: /Users/dcasson/Data/gpep/chena/forcing/
+  summa_dir: /Users/dcasson/Data/gpep/chena/forcing/summa/
+  gpep_to_summa_output_dir: /Users/dcasson/Data/gpep/chena/forcing/
+  summa_forcing_dir: /Users/dcasson/Data/gpep/chena/forcing/summa/
+input_files:
+  catchment_shp: /Users/dcasson/Data/gpep/chena/gpkg/Chena_Near_Two_Rivers.gpkg
+  attribute_nc: /Users/dcasson/Data/yukon_esp/summa/settings/attributes.nc
+  metsim_base_config: ../config/metsim_base_config.yaml
+easymore:
+  catchment_shp_hru_id_field: 'hruNo'
+  catchment_shp_lat_id_field: 'cent_lat'
+  catchment_shp_lon_id_field: 'cent_lon'
+  # The forcing shp will be located in the easymore_intersect_dir
+  forcing_shp: forcing_shp.shp # Default value
+  easymore_input_var:
+    - prcp
+    - t_max
+    - t_min
+metsim:
+  metsim_dir: /Users/dcasson/Data/gpep/chena/forcing/metsim/
+  metsim_input_dir: /Users/dcasson/Data/gpep/chena/forcing/metsim/input/
+  metsim_output_dir: /Users/dcasson/Data/gpep/chena/forcing/metsim/output/
+  metsim_timestep_minutes: 60
+  metsim_domain_nc: domain.nc # Default value
+  out_freq: Y

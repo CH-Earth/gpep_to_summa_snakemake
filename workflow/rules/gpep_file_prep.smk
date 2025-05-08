@@ -28,7 +28,6 @@ rule add_gregorian_to_nc:
         "gpep_to_summa"
     shell: 
         'ncatted -a "calendar,time,o,c,"gregorian"" {input.input_forcing} {output.output_forcing}'
-
 #Process temperature data to create t_max and t_min
 rule add_t_max_and_t_min:
     input: 
@@ -43,11 +42,12 @@ rule add_t_max_and_t_min:
         "gpep_to_summa"
     shell:
         """
-        ncap2 -s "t_max = {params.t_mean_var}+0.5*{params.t_range_var}" -A {input.input_file} {output.temp};
-        ncap2 -s "t_min = {params.t_mean_var}+0.5*{params.t_range_var}" -A {output.temp};
+        ncap2 -s 'where({params.t_range_var} < 0) {params.t_range_var}=0;' {input.input_file} {output.temp};
+        ncap2 -s "t_max = {params.t_mean_var}+0.5*{params.t_range_var}" -A {output.temp};
+        ncap2 -s "t_min = {params.t_mean_var}-0.5*{params.t_range_var}" -A {output.temp};
         ncatted -O -a long_name,t_max,o,c,"estimated daily maximum temperature" {output.temp};
         ncatted -O -a long_name,t_min,o,c,"estimated daily minimum temperature" {output.temp};
-        ncrename -O -v .lat,latitude {output.temp}
-        ncrename -O -v .lon,longitude {output.temp}
+        ncrename -O -v .lat,latitude {output.temp};
+        ncrename -O -v .lon,longitude {output.temp};
         cp {output.temp} {output.output_file}
         """

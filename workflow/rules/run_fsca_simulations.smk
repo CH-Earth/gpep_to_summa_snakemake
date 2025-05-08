@@ -23,7 +23,6 @@ config_file_path = '/Users/drc858/GitHub/snow_dist/settings/config_summa_model_t
 #Read first raw forcing file for easymore remapping
 summa_result_filepaths = list(Path(config['summa_output_dir']).glob('*.nc'))
 summa_filenames = [Path(filepath).name for filepath in summa_result_filepaths]
-print(summa_filenames)
 
 fsca_simulation = summa_simulation.SummaSimulation(config_file_path)
 
