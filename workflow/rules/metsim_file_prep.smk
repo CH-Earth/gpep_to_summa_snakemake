@@ -1,8 +1,12 @@
 from pathlib import Path
-
-sys.path.append('../')
-from scripts import gpep_to_summa_utils as gts_utils
-from scripts import metsim_utils as ms_utils
+import sys
+#Update the current working directory to the directory of the file
+workflow_dir = Path(workflow.basedir).parent
+scripts_path = workflow_dir / "scripts"
+sys.path.append(str(scripts_path))
+print(f"Scripts path: {scripts_path}")
+import gpep_to_summa_utils as gts_utils
+import metsim_utils as ms_utils
 
 # Resolve paths from the configuration file
 config = gts_utils.resolve_paths(config)
@@ -27,19 +31,11 @@ rule create_metsim_domain_summa_attr:
         attr_nc = Path(config["attribute_nc"])
     output:
         domain_nc = Path(config["metsim_dir"], config["metsim_domain_nc"])
+    resources:
+        runtime=1,
+        mem_mb=1000
     shell:
         'ncap2 -O -s "mask=elevation*0+1" {input.attr_nc} {output.domain_nc}'
-
-"""
-rule subset_metsim_domain_to_forcing:
-    input:
-        domain_nc = Path(config["summa_dir"], config["metsim_domain_nc"]),
-        input_forcing_files = expand(Path(config['easymore_output_dir'],"{file}.nc"), file=file_path_list)
-    output:
-        subset_nc = Path(config["metsim_dir"], config["metsim_domain_nc"])
-    run:
-        ms_utils.subset_domain_to_forcing(input.domain_nc, input.input_forcing_files[0], output.subset_nc)
-"""
 
 # Define rule to run file remapping when remap file exists
 rule prep_forcing_files_with_hru_id:
@@ -50,6 +46,9 @@ rule prep_forcing_files_with_hru_id:
         hru_id = Path(metsim_input,"{forcing}.nc")
     group:
         "gpep_to_summa"
+    resources:
+        runtime=1,
+        mem_mb=1000
     shell:
         """
         ncrename -O -v .ID,hruId {input.input_forcing}
@@ -65,6 +64,9 @@ rule create_state_file:
         output_state_file = temp(Path(metsim_input,"{forcing}_state_temp.nc"))
     group:
         "gpep_to_summa"
+    resources:
+        runtime=1,
+        mem_mb=1000
     run:
         ms_utils.create_state_file(input.input_forcing_file, output.output_state_file)
 
@@ -75,5 +77,9 @@ rule update_state_file_time:
         output_state_file = Path(metsim_input,"{forcing}_state.nc")
     group:
         "gpep_to_summa"
+    resources:
+        runtime=1,
+        mem_mb=1000
     run:
         gts_utils.update_time_units(input.input_state_file, output.output_state_file)
+

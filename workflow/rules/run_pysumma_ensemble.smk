@@ -16,13 +16,13 @@ import xarray as xr
 sys.path.append(str(Path('../').resolve()))
 
 # UPDATE LOCAL SUMMA PATH
-config['summa_exe'] = '/Users/dcasson/GitHub/summa/bin/summa.exe'
-config['summa_forcing_dir'] = Path('/Users/dcasson/Data/gpep/chena/forcing/summa/')
+config['summa_exe'] = '/home/x-dcasson/GitRepos/summa/bin/summa.exe'
+config['summa_forcing_dir'] = Path('/anvil/projects/x-ees240082/dcasson/gpep/bow/ensemble_generation/rf_best_regression_static_dynamic/summa_ens/')
 
 # Resolve all file paths and directories in the config file
-config['file_manager'] = '/Users/dcasson/Data/yukon_esp/summa/settings/fileManagerSWE.txt'
-config['summa_output_dir'] = '/Users/dcasson/Data/yukon_esp/summa_output/'
-config['case_name'] = 'chena'
+config['file_manager'] = '/anvil/projects/x-ees240082/dcasson/gpep/bow/summa/settings/fileManager.txt'
+config['summa_output_dir'] = '/anvil/projects/x-ees240082/dcasson/gpep/bow/ensemble_generation/rf_best_regression_static_dynamic/summa_sim/'
+config['case_name'] = 'bow'
 config['run_suffix'] = 'base'
 
 def build_ensemble_list(directory):

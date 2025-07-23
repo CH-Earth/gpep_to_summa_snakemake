@@ -10,9 +10,9 @@
 #state: Set in main config file ex. ./metsim/data/state_nc.nc'
 #out_dir: Set in main config file ex.'./output'
 # Time step in minutes
-# time_step: 60
-method: 'mtclim'
 
+method: 'mtclim'
+utc_offset: true
 chunks:
   hru: 5
 

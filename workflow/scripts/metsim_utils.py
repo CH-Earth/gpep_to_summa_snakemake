@@ -15,8 +15,10 @@ except ImportError:
     from collections import Iterable
     
 from metsim import MetSim
-
-from . import gpep_to_summa_utils as gts_utils
+#Add  the parent directory to the path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+import gpep_to_summa_utils as gts_utils
 
 def create_metsim_config(config, input_forcing_file, input_state_file, output_file):
     """Create metsim configuration file, both from master configuration file and from hardwired settings"""
@@ -40,7 +42,7 @@ def create_metsim_config(config, input_forcing_file, input_state_file, output_fi
     metsim_base_config['out_dir'] = str(output_file_path.parent)
     
     #Set other settings
-    metsim_base_config["out_freq"] = config['metsim']['out_freq']
+    metsim_base_config["out_freq"] = config['out_freq']
     metsim_base_config["scheduler"] = "threading"
     metsim_base_config['time_step'] = str(config['metsim_timestep_minutes'])
 

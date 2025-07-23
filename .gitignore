@@ -27,6 +27,8 @@ venv.bak/
 # Logs folder
 logs/
 log/
+*.err
+*.out
 
 #snakemake
 .snakemake

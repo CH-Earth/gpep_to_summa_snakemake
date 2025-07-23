@@ -8,10 +8,10 @@ import xarray as xr
 from pathlib import Path
 import numpy as np
 from snakemake.logging import logger
-
+from pathlib import Path
 from pprint import pformat
 
-def resolve_paths(config,log_config = False):
+def resolve_paths(config, log_config=False):
     """Resolve paths from the configuration file"""
 
     # Log the settings if required
@@ -23,22 +23,49 @@ def resolve_paths(config,log_config = False):
     promoted_config = promote_keys(config)
     config.update(promoted_config)
 
+    # Get base directory if it exists
+    base_dir = Path(config.get('base_dir', ''))
+
     # Resolve gpep paths
-    config['gpep_tmp_forcing_dir'] = Path(config['gpep_to_summa_output_dir'], 'gpep_tmp')
+    if 'gpep_forcing_dir' in config:
+        config['gpep_forcing_dir'] = Path(base_dir, config['gpep_forcing_dir'].lstrip('/'))
+    
+    if 'gpep_to_summa_output_dir' in config:
+        config['gpep_to_summa_output_dir'] = Path(base_dir, config['gpep_to_summa_output_dir'].lstrip('/'))
+        config['gpep_tmp_forcing_dir'] = Path(config['gpep_to_summa_output_dir'], 'gpep_tmp')
 
     # Resolve easymore paths
-    config['easymore_dir'] = Path(config['gpep_to_summa_output_dir'], 'easymore')
+    if 'easymore_dir' in config:
+        config['easymore_dir'] = Path(base_dir, config['easymore_dir'].lstrip('/'))
+    else:
+        config['easymore_dir'] = Path(config['gpep_to_summa_output_dir'], 'easymore')
+    
     config['easymore_intersect_dir'] = Path(config['easymore_dir'], 'intersect')
     config['easymore_temp_dir'] = Path(config['easymore_dir'], 'temp')
     config['easymore_output_dir'] = Path(config['easymore_dir'], 'output')
+    config['forcing_shp_path'] = Path(config['easymore_intersect_dir'], config['forcing_shp'])
 
-    config['forcing_shp_path'] = Path(config['easymore_intersect_dir'],config['forcing_shp'])
+    # Resolve metsim paths
+    if 'metsim_dir' in config:
+        config['metsim_dir'] = Path(base_dir, config['metsim_dir'].lstrip('/'))
+    if 'metsim_input_dir' in config:
+        config['metsim_input_dir'] = Path(base_dir, config['metsim_input_dir'].lstrip('/'))
+    if 'metsim_output_dir' in config:
+        config['metsim_output_dir'] = Path(base_dir, config['metsim_output_dir'].lstrip('/'))
+
+    # Resolve summa paths
+    if 'summa_forcing_dir' in config:
+        config['summa_forcing_dir'] = Path(base_dir, config['summa_forcing_dir'].lstrip('/'))
+    if 'summa_output_dir' in config:
+        config['summa_output_dir'] = Path(base_dir, config['summa_output_dir'].lstrip('/'))
 
     # Define the remapping file that is created by easymore
     remap_file_str = f'{config["case_name"]}_remapping.nc'
     config['remap_file'] = Path(config['easymore_temp_dir'], remap_file_str)
 
-    return config                  
+    # Create the file manager 
+
+    return config
 
 def promote_keys(nested_dict):
     """Promote keys from a nested dictionary to the top level"""
@@ -51,7 +78,27 @@ def promote_keys(nested_dict):
                 promoted_dict[secondary_key] = value
 
     return promoted_dict
+"""
+def build_ensemble_list(summa_forcing_dir):
 
+    summa_forcing_dir = Path(summa_forcing_dir)
+    members = []
+    file_path_list = set()
+    
+    # Get all directories that are all digits
+    for p in sorted(summa_forcing_dir.iterdir()):
+        if p.is_dir() and p.name.strip().isdigit():
+            members.append(p.name)
+            
+            # Find all .nc files in this member directory
+            for file in p.glob('*.nc'):
+                if file.exists():
+                    # Create path in the format 'member/filename_without_extension'
+                    file_path = Path(p.name, file.stem)
+                    file_path_list.add(file_path)
+    
+    return members, file_path_list
+"""
 def build_ensemble_list(directory):
     ''' Build a list of the ensemble name and the file name for each file in the directory
         e.g. for each file in the directory: ens_forc.tuolumne.01d.2020.001.nc' --> 001/ens_forc.tuolumne.01d.2020.001.nc
@@ -71,10 +118,35 @@ def build_ensemble_list(directory):
 
     return ensemble_list, file_path_list
 
-def list_files_in_subdirectory(directory, suffix_to_remove='.nc'):
+def list_files_in_subdirectory(directory, suffix_to_remove='.nc', filenames_only=False):
+    """
+    List all files recursively, optionally removing suffix from filenames.
+    Returns clean Path objects. Optionally, return only filenames (no subdirectories).
+    
+    Args:
+        directory (str or Path): Root directory to search.
+        suffix_to_remove (str): Suffix to strip from filenames (default: '.nc').
+        filenames_only (bool): If True, return only filenames (no subdirectories). Default is False.
+    
+    Returns:
+        List[Path] or List[str]: Cleaned Path objects or filenames as strings.
+    """
     path = Path(directory)
-    file_paths = [file.relative_to(path).as_posix().replace(suffix_to_remove, "") for file in path.glob('**/*nc') if file.is_file()]
+    file_paths = []
 
+    for file in path.glob('**/*.nc'):
+        if file.is_file():
+            rel_path = file.relative_to(path)
+            # Remove suffix safely only from the filename part
+            if rel_path.name.endswith(suffix_to_remove):
+                cleaned_name = rel_path.name[:-len(suffix_to_remove)]
+            else:
+                cleaned_name = rel_path.name
+            if filenames_only:
+                file_paths.append(cleaned_name)
+            else:
+                cleaned_path = rel_path.with_name(cleaned_name)
+                file_paths.append(cleaned_path)
     return file_paths
 
 def create_filename_list(base_name, num_ensembles):

@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import sys
 import pysumma as ps
@@ -12,9 +11,6 @@ scripts_path = workflow_dir / "scripts"
 sys.path.append(str(scripts_path))
 import gpep_to_summa_utils as gts_utils
 
-# ---------------------------------------
-# Helper to sanitize paths
-# ---------------------------------------
 def clean_path(p):
     return Path(str(p).replace(" ", "").replace("\n", "").replace("\t", ""))
 
@@ -64,7 +60,8 @@ for member_id in ens:
             if member_id_clean in fp.parts[0].strip():
                 full_path = Path(*[part.strip() for part in fp.parts]).with_suffix(".nc")
                 fh.write(full_path.as_posix().strip() + "\n")
-
+    print(f'member_id_clean: {member_id_clean}')
+    print(f'forcing_list_path: {forcing_list_path}')
     forcing_file_dict[member_id_clean] = forcing_list_path
 
 # ---------------------------------------
@@ -86,8 +83,8 @@ rule run_summa_ensemble_simulations:
         output_path = SUMMA_OUTPUT_DIR,
         run_suffix = lambda wildcards: str(wildcards.ens_member)
     resources:
-        runtime=180,
-        mem_mb=10000
+        runtime=60,
+        mem_mb=20000
     run:
         print(f"Running member: {wildcards.ens_member}")
         print(f"Forcing file: {input.forcing_file}")
@@ -99,6 +96,7 @@ rule run_summa_ensemble_simulations:
         sim_config = {
             'manager': {
                 'forcingPath': str(params.forcing_path / params.run_suffix) + '/',
+                #'forcingPath': str(params.forcing_path) + '/',
                 'outputPath': str(params.output_path) + '/',
                 'forcingListFile': str(forcing_list_name)
             }
@@ -112,5 +110,5 @@ rule run_summa_ensemble_simulations:
         time.sleep(2)  # Small delay to help file system sync
         shutil.copy(input.forcing_file,forcing_list_output)
         
-        sim.run(run_suffix=str(params.run_suffix),freq_restart='e')
+        sim.run(run_suffix=str(params.run_suffix), startGRU=1, countGRU=1)
         print(sim.status)

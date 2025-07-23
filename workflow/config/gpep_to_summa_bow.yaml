@@ -3,19 +3,20 @@
 # To initiate a new run, review and update the settings below.
 # Note that values will be available as a primary key i.e. config['case_name']
 
-
 base_settings:
-  case_name: chena
-  base_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/rf_best_regression_static_dynamic/
+  case_name: bow
+  base_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/ensemble_generation/lwr_best_regression_static_dynamic/
 gis_data:
-  catchment_shp: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/gis/chena_tdx.gpkg
-  attribute_nc: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/gis/attributes.nc
+  catchment_shp: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/gis/bow_tdx.gpkg
+  attribute_nc: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/gis/attributes.nc
 wind_data:
-  wind_input_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/data_prep/dynamic_data_output/casr/yearly/
-  wind_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/wind/
-  wind_temp_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/wind/temp/
-  wind_input_var: CaSR_v3.1_P_UVC_10m
-  wind_output_var: windspd
+  wind_input_dir: /anvil/projects/x-ees240082/users/dcasson/casr/bow/
+  wind_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/ensemble_generation/wind/
+  wind_temp_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/ensemble_generation/wind/temp/
+  wind_input_var: 
+  - CaSR_v3.1_P_UVC_10m
+  wind_output_var: 
+  - windspd
 gpep_to_summa_paths:
   gpep_forcing_dir: /ensembles/
   gpep_to_summa_output_dir: /gpep_to_summa/
@@ -41,6 +42,6 @@ easymore_settings:
   - t_max
   - t_min
 summa_paths:
-  summa_exe: /home/x-dcasson/GitRepos/summa/bin/summa.exe
-  summa_settings_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/summa/settings/
-  file_manager: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/summa/settings/fileManager.txt
+  summa_exe: /anvil/projects/x-ees240082/apps/summa_repos/summa_develop_sundials/summa/bin/summa_sundials.exe
+  summa_settings_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/summa/settings/
+  file_manager: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/summa/settings/fileManager.txt

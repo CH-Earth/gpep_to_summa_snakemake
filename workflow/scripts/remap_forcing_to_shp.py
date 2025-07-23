@@ -25,7 +25,7 @@ def rename_easymore_output(esmr):
 
 
 def remap_with_easymore(
-    config, input_forcing, input_shp, remap_file, only_create_remap_nc=False, file_path=None):
+    config, input_forcing, input_shp, remap_file, only_create_remap_nc=False, file_path=None, var_lat='latitude', var_lon='longitude'):
 
 
     # initializing EASYMORE object
@@ -41,7 +41,7 @@ def remap_with_easymore(
 
     temp_dir = str(config["easymore_temp_dir"]) + "/"
     print(temp_dir)
-    easymore_input_var = config['easymore']["easymore_input_var"]
+    easymore_input_var = config["easymore_input_var"]
 
     json_dict = {
         "case_name": config["case_name"],
@@ -49,8 +49,8 @@ def remap_with_easymore(
         "target_shp": input_shp,
         "source_nc": input_forcing,
         "var_names": easymore_input_var,
-        "var_lon": "longitude",
-        "var_lat": "latitude",
+        "var_lon": var_lon,
+        "var_lat": var_lat,
         "var_time": "time",
         "output_dir": output_dir,
         "target_shp_ID": config["catchment_shp_hru_id_field"],
