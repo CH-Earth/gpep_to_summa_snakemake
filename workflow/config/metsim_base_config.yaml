@@ -14,7 +14,7 @@
 method: 'mtclim'
 utc_offset: true
 chunks:
-  hru: 5
+  hru: 30
 
 forcing_vars:  # Format is input_name : metsim_name
   prcp: 'prec'

@@ -18,6 +18,8 @@ conda activate gpep_to_summa_snakemake
 # List of configuration files
 config_files=(
     "../config/gpep_to_summa_bow.yaml"
+    #"../config/gpep_to_summa_chena.yaml"
+    #"../config/gpep_to_summa_tuolumne.yaml"
 )
 
 # Directory for logs
@@ -47,7 +49,7 @@ do
 
     # First, unlock (in case a previous run left a lock)
     snakemake \
-        -s ../rules/run_pysumma_ensemble_non_distributed.smk \
+        -s ../rules/run_pysumma_ensemble_gru.smk \
         --configfile "$config_file" \
         -c 6 \
         --profile snakemake_default \
@@ -57,7 +59,7 @@ do
 
     # Then run Snakemake in the background, using the separate working directory
     snakemake \
-        -s ../rules/run_pysumma_ensemble_non_distributed.smk \
+        -s ../rules/run_pysumma_ensemble_gru.smk \
         --configfile "$config_file" \
         -c 6 \
         --profile snakemake_default \

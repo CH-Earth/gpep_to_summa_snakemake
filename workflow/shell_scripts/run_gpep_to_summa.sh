@@ -44,7 +44,7 @@ do
 
     # First, unlock (in case a previous run left a lock)
     snakemake \
-        -s ../rules/metsim_to_summa.smk \
+        -s ../rules/gpep_to_summa.smk \
         -c 16 \
         --configfile "../config/$config_file" \
         --profile snakemake_default \
@@ -54,12 +54,11 @@ do
 
     # Then run Snakemake in the background, using the separate working directory
     snakemake \
-        -s ../rules/metsim_to_summa.smk \
+        -s ../rules/gpep_to_summa.smk \
         -c 16 \
         --configfile "../config/$config_file" \
         --profile snakemake_default \
         --directory "$work_dir" \
-        --forceall \
         2>&1 | tee -a "$log_file" &
 
 done

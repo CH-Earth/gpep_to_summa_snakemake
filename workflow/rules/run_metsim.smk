@@ -42,10 +42,10 @@ rule generate_metsim_output:
     output:
         metsim_output_forcing = Path(config['metsim_output_dir'],"{id}.nc")
     group:
-        "gpep_to_summa"
+        "run_metsim"
     resources:
-        runtime=60,
-        mem_mb=10000
+        runtime=90,
+        mem_mb=50000
     run:
         ms = ms_utils.create_metsim_config(config, input.metsim_input_forcing,input.metsim_input_state,output.metsim_output_forcing)
         ms.run()

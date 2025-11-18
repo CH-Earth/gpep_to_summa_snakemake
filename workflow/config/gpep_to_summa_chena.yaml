@@ -10,12 +10,24 @@ base_settings:
 gis_data:
   catchment_shp: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/gis/chena_tdx.gpkg
   attribute_nc: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/gis/attributes.nc
-wind_data:
-  wind_input_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/data_prep/dynamic_data_output/casr/yearly/
-  wind_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/wind/
-  wind_temp_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/wind/temp/
-  wind_input_var: CaSR_v3.1_P_UVC_10m
-  wind_output_var: windspd
+  summa_gru_csv: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/gis/stations_with_hru_ids.csv
+  base_10_grus: 3
+grid_data:
+  dataset: ERA5
+  timestep_seconds: 3600
+  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena
+  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped
+  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped/temp
+  grid_file_name: chena_processed.nc
+  grid_input_var: 
+    - CaSR_v3.1_P_UVC_10m
+    - CaSR_v3.1_A_PR0_SFC
+    - CaSR_v3.1_P_TT_1.5m
+    - CaSR_v3.1_P_P0_SFC
+    - CaSR_v3.1_P_FI_SFC
+    - CaSR_v3.1_P_FB_SFC
+    - CaSR_v3.1_P_HU_1.5m
+  wind_var: windspd
 gpep_to_summa_paths:
   gpep_forcing_dir: /ensembles/
   gpep_to_summa_output_dir: /gpep_to_summa/
@@ -25,6 +37,8 @@ gpep_to_summa_paths:
   easymore_dir: /gpep_to_summa/easymore/
   summa_forcing_dir: /summa/forcing/
   summa_output_dir: /summa/output/
+  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped/final/
+  summa_det_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/era5_remapped/summa_output/
 metsim_settings:
   metsim_base_config: '/home/x-dcasson/GitRepos/gpep_to_summa_snakemake/workflow/config/metsim_base_config.yaml'
   catchment_shp_hru_id_field: 'HRU_ID'
@@ -41,6 +55,6 @@ easymore_settings:
   - t_max
   - t_min
 summa_paths:
-  summa_exe: /home/x-dcasson/GitRepos/summa/bin/summa.exe
+  summa_exe: /anvil/projects/x-ees240082/apps/summa_repos/summa_develop_sundials/summa/bin/summa_sundials.exe
   summa_settings_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/summa/settings/
   file_manager: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/summa/settings/fileManager.txt

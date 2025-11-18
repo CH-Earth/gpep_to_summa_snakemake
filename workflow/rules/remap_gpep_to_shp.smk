@@ -24,7 +24,7 @@ first_file = (Path(config['gpep_tmp_forcing_dir']) / file_path_list[0]).with_suf
 print(f"First file: {first_file}")
 rule remap_gpep_to_shp:
     input:
-        expand(Path(config['gpep_tmp_forcing_dir'],"{file}.nc"), file=file_path_list)
+        expand(Path(config['easymore_output_dir'],"{id}.nc"), id=file_path_list)
 
 # Define rule to run file remapping when remap file exists
 rule create_remap_file:
@@ -51,6 +51,6 @@ rule remap_with_easymore:
         file_path = "{id}"
     resources:
         mem_mb = 10000,
-        runtime = 10
+        runtime = 15
     run:
         remap_forcing_to_shp.remap_with_easymore(config, input.input_forcing,input.input_shp,input.remap_nc,only_create_remap_nc=False,file_path=params.file_path)

@@ -41,3 +41,4 @@ _, file_path_list = utils.build_ensemble_list(config['gpep_forcing_dir'])
 rule gpep_to_summa:
     input:
         expand(Path(config['summa_forcing_dir'],'{forcing_file}.nc'), forcing_file = file_path_list)
+        #Path(config['summa_forcing_dir'], "summa_mean_forcing.nc")

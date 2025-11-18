@@ -31,9 +31,9 @@ rule add_gregorian_to_nc:
     output: 
         output_forcing = temp(Path(config['gpep_tmp_forcing_dir'],"{id}_greg.nc"))
     group:
-        "gpep_to_summa"
+        "gpep_file_prep"
     resources:
-        runtime=1,
+        runtime=3,
         mem_mb=1000
     shell: 
         'ncatted -a "calendar,time,o,c,"gregorian"" {input.input_forcing} {output.output_forcing}'
@@ -48,9 +48,9 @@ rule add_t_max_and_t_min:
         t_mean_var = 'tmean',
         t_range_var = 'trange'
     group:
-        "gpep_to_summa"
+        "gpep_file_prep"
     resources:
-        runtime=1,
+        runtime=3,
         mem_mb=10000
     shell:
         """

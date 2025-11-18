@@ -10,14 +10,22 @@ base_settings:
 gis_data:
   catchment_shp: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/gis/tuolumne_tdx.gpkg
   attribute_nc: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/gis/attributes.nc
-wind_data:
-  wind_input_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/data_prep/dynamic_data_output/casr/yearly/
-  wind_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/ensemble_generation/wind/
-  wind_temp_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/ensemble_generation/wind/temp/
-  wind_input_var:
-  - CaSR_v3.1_P_UVC_10m
-  wind_output_var: 
-  - windspd
+  summa_gru_csv: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/gis/stations_with_hru_ids.csv
+  base_10_grus: 3
+grid_data:
+  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/era5/tuolumne
+  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/era5/tuolumne/remapped
+  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/era5/tuolumne/remapped/temp
+  grid_file_name: tuolumne_processed.nc
+  grid_input_var: 
+    - CaSR_v3.1_P_UVC_10m
+    - CaSR_v3.1_A_PR0_SFC
+    - CaSR_v3.1_P_TT_1.5m
+    - CaSR_v3.1_P_P0_SFC
+    - CaSR_v3.1_P_FI_SFC
+    - CaSR_v3.1_P_FB_SFC
+    - CaSR_v3.1_P_HU_1.5m
+  wind_var: windspd
 gpep_to_summa_paths:
   gpep_forcing_dir: /ensembles/
   gpep_to_summa_output_dir: /gpep_to_summa/
@@ -26,6 +34,8 @@ gpep_to_summa_paths:
   metsim_output_dir: /gpep_to_summa/metsim/output/
   easymore_dir: /gpep_to_summa/easymore/
   summa_forcing_dir: /summa/forcing/
+  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/era5/tuolumne/remapped/final/
+  summa_det_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/ensemble_generation/era5_remapped/summa_output/
   summa_output_dir: /summa/output/
 metsim_settings:
   metsim_base_config: '/home/x-dcasson/GitRepos/gpep_to_summa_snakemake/workflow/config/metsim_base_config.yaml'
@@ -43,6 +53,6 @@ easymore_settings:
   - t_max
   - t_min
 summa_paths:
-  summa_exe: /home/x-dcasson/GitRepos/summa/bin/summa.exe
+  summa_exe: /anvil/projects/x-ees240082/apps/summa_repos/summa_develop_sundials/summa/bin/summa_sundials.exe
   summa_settings_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/summa/settings/
   file_manager: /anvil/projects/x-ees240082/users/dcasson/gpep/tuolumne/summa/settings/fileManager.txt
