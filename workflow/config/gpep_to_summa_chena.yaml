@@ -15,9 +15,9 @@ gis_data:
 grid_data:
   dataset: ERA5
   timestep_seconds: 3600
-  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena
-  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped
-  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped/temp
+  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/casr/chena
+  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/casr/chena/remapped/final/
+  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/casr/chena/remapped/temp
   grid_file_name: chena_processed.nc
   grid_input_var: 
     - CaSR_v3.1_P_UVC_10m
@@ -37,8 +37,8 @@ gpep_to_summa_paths:
   easymore_dir: /gpep_to_summa/easymore/
   summa_forcing_dir: /summa/forcing/
   summa_output_dir: /summa/output/
-  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/era5/chena/remapped/final/
-  summa_det_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/era5_remapped/summa_output/
+  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/casr_remapped/final/
+  summa_det_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/chena/ensemble_generation/casr_remapped/summa_output/
 metsim_settings:
   metsim_base_config: '/home/x-dcasson/GitRepos/gpep_to_summa_snakemake/workflow/config/metsim_base_config.yaml'
   catchment_shp_hru_id_field: 'HRU_ID'

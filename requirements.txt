@@ -136,7 +136,6 @@ Pygments
 pyparsing
 pyproj
 pyproject_hooks
-pysumma
 pytest
 python-dateutil
 python-json-logger

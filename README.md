@@ -1,8 +1,8 @@
+[![DOI](https://zenodo.org/badge/1104800685.svg)](https://doi.org/10.5281/zenodo.17727623)
+
 # gpep to summa snakemake
 
-Converting high-resolution ensemble meterological forcings to summa model input using snakemake, easymore and metsim.
-
-![Auto-generated Workflow Schematic](https://github.com/DaveCasson/gpep_to_summa_snakemake/blob/main/workflow/reports/gpep_to_summa.png)
+Converting high-resolution ensemble meterological forcings for physically based hydrological modelling using Snakemake
 
 ## Table of Contents
 - [Overview](#brief-overview)

@@ -12,9 +12,9 @@ gis_data:
   summa_gru_csv: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/gis/stations_with_hru_ids.csv
   base_10_grus: 4
 grid_data:
-  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/era5/bow
-  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/era5/bow/remapped
-  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/era5/bow/remapped/temp
+  grid_input_dir: /anvil/projects/x-ees240082/users/dcasson/casr/bow
+  grid_output_dir: /anvil/projects/x-ees240082/users/dcasson/casr/bow/remapped
+  grid_temp_dir: /anvil/projects/x-ees240082/users/dcasson/casr/bow/remapped/temp
   grid_file_name: bow_processed.nc
   grid_input_var: 
     - CaSR_v3.1_P_UVC_10m
@@ -33,7 +33,7 @@ gpep_to_summa_paths:
   metsim_output_dir: /gpep_to_summa/metsim/output/
   easymore_dir: /gpep_to_summa/easymore/
   summa_forcing_dir: /summa/forcing/
-  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/era5/bow/remapped/final
+  summa_det_forcing_dir: /anvil/projects/x-ees240082/users/dcasson/era5/bow/remapped/final/
   summa_det_output_dir: /anvil/projects/x-ees240082/users/dcasson/gpep/bow/ensemble_generation/era5_remapped/summa_output/
   summa_output_dir: /summa/output/
 metsim_settings:
