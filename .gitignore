@@ -36,4 +36,11 @@ log/
 # Mac files
 .DS_Store
 
+# R files
+.Rhistory
+
 # End of .gitignore
+workflow/snow_emulator/emulators/RF_step_6_rmse.RData
+workflow/snow_emulator/emulators/RF_step_6_spearman.RData
+workflow/snow_emulator/plots/my_environment.RData
+workflow/snow_emulator/emulators/RF_step_6_TSSv1.RData

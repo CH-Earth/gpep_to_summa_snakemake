@@ -1,0 +1,32 @@
+################################################################
+#                                                              # 
+# Configuration (yaml) file for the LSE and snow stations      #
+# Case: Obtain parameters for Dave                             #
+#                                                              #
+# nicolas.vasquez@ucalgary.ca                                  #
+#                                                              #
+################################################################
+
+### General info ###############################################
+
+paramVersion:  v03
+nNewParams:    100
+iStep:         6     # Step of the emulator iteration to be considered
+versionAtts:   "v01"
+
+### Directories ################################################
+
+dirEmulators: /anvil/projects/x-ees240082/users/nicolas-vasquez/SnowStations/emulators
+dirFunctions: /anvil/projects/x-ees240082/users/nicolas-vasquez/SnowStations/Rfiles
+dirSave:      /anvil/projects/x-ees240082/users/nicolas-vasquez/SnowStations/output
+dirUseful:    /anvil/projects/x-ees240082/users/nicolas-vasquez/SnowStations/usefulFiles
+dirAtts:      /anvil/projects/x-ees240082/users/nicolas-vasquez/SnowStations/Atts
+
+### Genetic Algorithm ##########################################
+
+gaPop   : 150      # Population of the GA
+gaIters : 70       # Number of iterations for the GA
+
+################################################################
+#                     The End. Good luck!                      #
+################################################################
